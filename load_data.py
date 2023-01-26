@@ -15,7 +15,7 @@ def load_dataset(name1, name2):
     for y in name2:
         non_car+= glob.glob(y)
     return car, non_car
-def color_hist(img,bins ):
+def color_hist(img,bins):
     img1= np.histogram(img[:,:,0], bins=bins, range=(0,256))
     img2= np.histogram(img[:,:,1], bins=bins, range=(0,256))
     img3= np.histogram(img[:,:,2], bins=bins, range=(0,256))
@@ -32,19 +32,29 @@ def get_feature_of_image(img, orient=9, pix_per_cell=8, cell_per_block=2, spatia
     img = change_color_space(img, color_space)
     if hog_fea==True:
         h=[]
-        for x in range(3):
-            hog_feature= hog(img[:,:,x], orient, pixels_per_cell=(pix_per_cell,pix_per_cell), cells_per_block=(cell_per_block,cell_per_block),
-                         feature_vector=feature_vector, visualize=vis, transform_sqrt=False)
-            h.append(hog_feature)
+        if color_space =='gray':
+            h.append(hog(img, orient, pixels_per_cell=(pix_per_cell,pix_per_cell), cells_per_block=(cell_per_block,cell_per_block),
+                         feature_vector=feature_vector, visualize=vis, transform_sqrt=False))
+        else:
+            for x in range(3):
+                hog_feature= hog(img[:,:,x], orient, pixels_per_cell=(pix_per_cell,pix_per_cell), cells_per_block=(cell_per_block,cell_per_block),
+                             feature_vector=feature_vector, visualize=vis, transform_sqrt=False)
+                h.append(hog_feature)
         if special==True:
             return h
         feature.append(np.concatenate(h))
     if color_fea==True:
-        color_feature= color_hist(img, bins)
-        feature.append(color_feature)
+        if color_space =='gray':
+            feature.append(np.histogram(img, bins=bins, range=(0,256))[0])
+        else:
+            color_feature= color_hist(img, bins)
+            feature.append(color_feature)
     if spatial_fea==True:
-        spatial_feature= spatial(img, spatial_size)
-        feature.append(spatial_feature)
+        if color_space == 'gray':
+            feature.append(cv2.resize(img, spatial_size).ravel())
+        else:
+            spatial_feature= spatial(img, spatial_size)
+            feature.append(spatial_feature)
     return np.concatenate(feature)
 def change_color_space(img,colorspace):
     if colorspace != 'RGB':
@@ -54,6 +64,8 @@ def change_color_space(img,colorspace):
             img = cv2.cvtColor(img, cv2.COLOR_RGB2HLS)
         if colorspace == 'yuv':
             img = cv2.cvtColor(img, cv2.COLOR_RGB2YUV)
+        if colorspace == 'gray':
+            img= cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     return img
 def extract_feature(dataset, color_space, params):
     dataset_feature=[]

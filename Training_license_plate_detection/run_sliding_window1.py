@@ -6,6 +6,7 @@ import time
 import cv2
 import matplotlib.pyplot as plt
 from Training_license_plate_detection.setting import win_size
+import glob
 params=load_classifier('lp_detect.p')
 def run(name, debug=False):
     img   = cv2.imread(name, cv2.IMREAD_COLOR)
@@ -35,8 +36,9 @@ def run(name, debug=False):
         cv2.imshow('i',i)
         cv2.imshow('i1',i1)
         cv2.waitKey(0)
-    return img2, bbox_heatmap, len(bbox)
+    return img2, bbox_heatmap
 def test():
-    os.chdir("/Users/datle/Desktop/Official_license_plate/Training_license_plate_detection/test_images")
-    result,bbox= run('img.png',debug=True)
-    print(result)
+    os.chdir("/Users/datle/Desktop/Official_license_plate")
+    l=glob.glob("./image_vehicle/*.jpg")
+    for x in l:
+        result,bbox= run(x,debug=True)

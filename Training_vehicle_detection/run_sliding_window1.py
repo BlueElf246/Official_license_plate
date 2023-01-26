@@ -17,7 +17,7 @@ def run(name, debug=False):
         img   = cv2.imread(name, cv2.IMREAD_COLOR)
     #41, 85
     img= cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    img= cv2.resize(img, (800,400))
+    img= cv2.resize(img, (1000,500))
     img1  = img.copy()
     img2  = img.copy()
     start= time.time()
@@ -42,9 +42,8 @@ def run(name, debug=False):
         cv2.waitKey(0)
     return img2, bbox_heatmap
 def test():
-    os.chdir("/Users/datle/Desktop/Official_license_plate/Training_vehicle_detection")
-    l=glob.glob("./result/middle_close.jpeg")
+    os.chdir("/Users/datle/Desktop/Official_license_plate")
+    l=glob.glob("./Training_vehicle_detection/result/run_load_data.jpeg")
     random.shuffle(l)
     for i in l:
         result,bbox= run(i,debug=True)
-

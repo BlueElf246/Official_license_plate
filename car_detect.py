@@ -14,6 +14,6 @@ def read(name):
             break
     cap.release()
 
-read('/Users/datle/Desktop/Official_license_plate/Traffic - 27260.mp4')
+read('/Users/datle/Desktop/Traffic - 27260.mp4')
 
 

@@ -39,17 +39,28 @@ def sliding_window(img,params,scale, y_start_stop=[None, None], cell_per_step=2)
     h= get_feature_of_image(img, orient=params['orient'], pix_per_cell=params['pix_per_cell'], cell_per_block=params['cell_per_block'],hog_fea=params['hog_feat'],
                                      spatial_size=params['spatial_size'], spatial_fea=params['spatial_feat'],bins=params['hist_bins'], color_fea=params['hist_feat'],
                                 feature_vector=False, special=True, color_space=params['color_space'])
-    ch1=h[0]
-    ch2=h[1]
-    ch3=h[2]
+    ch1=[]
+    ch2=[]
+    ch3=[]
+    if params['color_space']=='gray':
+        ch1=h[0]
+    else:
+        ch1=h[0]
+        ch2=h[1]
+        ch3=h[2]
 
     for y in range(number_of_window_in_y+1):
         for x in range(number_of_window_in_x+1):
             x_pos= x*cell_per_step
             y_pos= y*cell_per_step
-            hog_fea1= ch1[y_pos:y_pos+number_of_cell_per_window_y, x_pos:x_pos+number_of_cell_per_window_x].ravel()
-            hog_fea2= ch2[y_pos:y_pos+number_of_cell_per_window_y, x_pos:x_pos+number_of_cell_per_window_x].ravel()
-            hog_fea3= ch3[y_pos:y_pos + number_of_cell_per_window_y, x_pos:x_pos + number_of_cell_per_window_x].ravel()
+            hog_fea2=[]
+            hog_fea3=[]
+            if params['color_space'] == 'gray':
+                hog_fea1= ch1[y_pos:y_pos+number_of_cell_per_window_y, x_pos:x_pos+number_of_cell_per_window_x].ravel()
+            else:
+                hog_fea1 = ch1[y_pos:y_pos + number_of_cell_per_window_y,x_pos:x_pos + number_of_cell_per_window_x].ravel()
+                hog_fea2= ch2[y_pos:y_pos+number_of_cell_per_window_y, x_pos:x_pos+number_of_cell_per_window_x].ravel()
+                hog_fea3= ch3[y_pos:y_pos + number_of_cell_per_window_y, x_pos:x_pos + number_of_cell_per_window_x].ravel()
             hog_f= np.hstack((hog_fea1,hog_fea2,hog_fea3))
             x_top= x_pos * pix_per_cell
             y_top= y_pos * pix_per_cell
