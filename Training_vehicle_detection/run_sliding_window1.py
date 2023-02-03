@@ -10,15 +10,24 @@ import cv2
 import matplotlib.pyplot as plt
 from Training_vehicle_detection.setting import win_size
 params=load_classifier('vehicle_detect.p')
+def filter_plate(bbox):
+    for i,x in enumerate(bbox):
+        # if (x[3]- x[1]) <15 and (x[2]- x[0]) <50:
+        #     continue
+        width= x[2]- x[0]
+        height= x[3]- x[1]
+        ratio= np.round_(width/height)
+        if ratio in (1,):
+            if (width >60) and (width<100) and (height >60) and (height <100):
+                bbox[i]=x
+    return bbox
 def run(name, debug=False):
     if type(name)!=str:
         img=name
     else:
         img   = cv2.imread(name, cv2.IMREAD_COLOR)
-    #41, 85
     img= cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img= cv2.resize(img, (1000,500))
-    img1  = img.copy()
     img2  = img.copy()
     start= time.time()
     bbox, bbox_nms= find_car_multi_scale(img,params, win_size)
@@ -29,9 +38,12 @@ def run(name, debug=False):
     heatmap=draw_heatmap(bbox, img)
     heatmap_thresh= apply_threshhold(heatmap, thresh=win_size['thresh'])
     bbox_heatmap= get_labeled(heatmap_thresh)
-    heatmap_thresh, heatmap= product_heat_and_label_pic(heatmap, heatmap_thresh)
+    bbox_heatmap=filter_plate(bbox_heatmap)
+    #bbox_nms=filter_plate(bbox_nms)
     img2 = draw(img2, bbox_heatmap)
     if debug != False:
+        img1=img.copy()
+        heatmap_thresh, heatmap = product_heat_and_label_pic(heatmap, heatmap_thresh)
         img   =draw(img, bbox)
         img1  =draw(img1, bbox_nms)
         i= np.concatenate((img,img1,img2),axis=0)
@@ -39,8 +51,8 @@ def run(name, debug=False):
         i1= cv2.resize(i1, (600,300))
         cv2.imshow('i',i)
         cv2.imshow('i1',i1)
-        cv2.waitKey(0)
-    return img2, bbox_heatmap
+    cv2.imshow('result', img2)
+    return img2, bbox_nms
 def test():
     os.chdir("/Users/datle/Desktop/Official_license_plate")
     l=glob.glob("./Training_vehicle_detection/result/run_load_data.jpeg")

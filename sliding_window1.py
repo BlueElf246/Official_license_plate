@@ -87,10 +87,11 @@ def find_car_multi_scale(img,params, win_size):
     bboxes=[]
     # print('number of scale use:', len(win_size['use_scale']))
     win_scale=win_size['use_scale']
-    for x in range(11):
+    y_start_stop= win_size['y_start_stop']
+    for x in range(win_size['length']):
         if x in win_scale:
             scale_0=win_size[f'scale_{x}'][2]
-            bbox=sliding_window(img, params=params, y_start_stop=[None, None], cell_per_step=2, scale=scale_0)
+            bbox=sliding_window(img, params=params, y_start_stop= y_start_stop, cell_per_step=2, scale=scale_0)
             if len(bbox)==0:
                 continue
             bboxes.append(bbox)
