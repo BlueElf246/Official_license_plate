@@ -78,36 +78,10 @@ def run():
 
 
 def run1(img,x,debug):
-    result, bbox = detect_vehicle(img, debug=debug)
+    result, bbox = detect_vehicle(img, debug=debug, use_nms=True)
+def change_green(img):
+    pass
 
-    # if result is None and bbox is None:
-    #     return
-    # imgs = filter_vehicle(result, bbox)
-    # if len(imgs) == 0:
-    #     return
-    # for y, img in enumerate(imgs):
-    #     if img.shape[0] == 0 or img.shape[1] == 0:
-    #         continue
-        # cv2.imwrite(f'/Users/datle/Desktop/Official_license_plate/image_vehicle/{x}_{y}.jpg', img)
-    # img_vehicle = sorted(glob.glob("/Users/datle/Desktop/Official_license_plate/image_vehicle/*.jpg"))
-    # for x, img in enumerate(img_vehicle):
-    #     x1 = img.split('/')[-1][:3]
-    #     result, bbox = detect_plate(img, debug=True)
-    #     # print('boxes:',number_box)
-    #     # if number_box <100:
-    #     #     continue
-    #     if result is None and bbox is None:
-    #         x += 1
-    #         continue
-    #     imgs = filter_plate(result, bbox)
-    #     if len(imgs) == 0:
-    #         x += 1
-    #         continue
-    #     for y, img1 in enumerate(imgs):
-    #         if img1.shape[0] == 0 or img1.shape[1] == 0:
-    #             y += 1
-    #             continue
-    #         cv2.imwrite(f'/Users/datle/Desktop/Official_license_plate/image_plate/{x1}_{x}_{y}.jpg', img1)
 
 
 

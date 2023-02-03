@@ -17,10 +17,10 @@ import random
 name2=["./Downloads/data/non-vehicles/*.png"]
 name1=["./Downloads/data/vehicles/*.png"]
 
-name2.append("./Desktop/Official_license_plate/Training_license_plate_detection/dataset/non_vehicles/GTI_Far/*.png")
-name2.append("./Desktop/Official_license_plate/Training_license_plate_detection/dataset/non_vehicles/GTI_Left/*.png")
-name2.append("./Desktop/Official_license_plate/Training_license_plate_detection/dataset/non_vehicles/GTI_MiddleClose/*.png")
-name2.append("./Desktop/Official_license_plate/Training_license_plate_detection/dataset/non_vehicles/GTI_Right/*.png")
+# name2.append("./Desktop/Official_license_plate/Training_license_plate_detection/dataset/non_vehicles/GTI_Far/*.png")
+# name2.append("./Desktop/Official_license_plate/Training_license_plate_detection/dataset/non_vehicles/GTI_Left/*.png")
+# name2.append("./Desktop/Official_license_plate/Training_license_plate_detection/dataset/non_vehicles/GTI_MiddleClose/*.png")
+# name2.append("./Desktop/Official_license_plate/Training_license_plate_detection/dataset/non_vehicles/GTI_Right/*.png")
 
 
 

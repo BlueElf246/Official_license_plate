@@ -21,7 +21,7 @@ def filter_plate(bbox):
             if (width >60) and (width<100) and (height >60) and (height <100):
                 bbox[i]=x
     return bbox
-def run(name, debug=False):
+def run(name, debug=False, use_nms=False):
     if type(name)!=str:
         img=name
     else:
@@ -35,22 +35,27 @@ def run(name, debug=False):
         return None, None
     end= time.time()
     print(f'time is: {end-start}')
-    heatmap=draw_heatmap(bbox, img)
-    heatmap_thresh= apply_threshhold(heatmap, thresh=win_size['thresh'])
-    bbox_heatmap= get_labeled(heatmap_thresh)
-    bbox_heatmap=filter_plate(bbox_heatmap)
-    #bbox_nms=filter_plate(bbox_nms)
-    img2 = draw(img2, bbox_heatmap)
+    if use_nms==False:
+        heatmap=draw_heatmap(bbox, img)
+        heatmap_thresh= apply_threshhold(heatmap, thresh=win_size['thresh'])
+        bbox_heatmap= get_labeled(heatmap_thresh)
+        bbox_heatmap=filter_plate(bbox_heatmap)
+        img2 = draw(img2, bbox_heatmap)
+    else:
+        img2 = draw(img2, bbox_nms)
     if debug != False:
-        img1=img.copy()
-        heatmap_thresh, heatmap = product_heat_and_label_pic(heatmap, heatmap_thresh)
-        img   =draw(img, bbox)
-        img1  =draw(img1, bbox_nms)
-        i= np.concatenate((img,img1,img2),axis=0)
-        i1= np.concatenate((heatmap, heatmap_thresh), axis=0)
-        i1= cv2.resize(i1, (600,300))
-        cv2.imshow('i',i)
-        cv2.imshow('i1',i1)
+        if use_nms==True:
+            img = draw(img, bbox)
+            cv2.imshow('i', img)
+        else:
+            img1=img.copy()
+            heatmap_thresh, heatmap = product_heat_and_label_pic(heatmap, heatmap_thresh)
+            img1  =draw(img1, bbox_nms)
+            i= np.concatenate((img,img1,img2),axis=0)
+            i1= np.concatenate((heatmap, heatmap_thresh), axis=0)
+            i1= cv2.resize(i1, (600,300))
+            cv2.imshow('i',i)
+            cv2.imshow('i1',i1)
     cv2.imshow('result', img2)
     return img2, bbox_nms
 def test():

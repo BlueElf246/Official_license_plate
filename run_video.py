@@ -10,10 +10,10 @@ i=0
 fifo = []
 while (cap.isOpened()):
     # Capture frame-by-frame
-    if i % 3!=0:
-        i+=1
-        continue
-    else:
+    # if i % 3!=0:
+    #     i+=1
+    #     continue
+    # else:
         ret, frame = cap.read()
         if ret == True:
             run1(frame,i, False)

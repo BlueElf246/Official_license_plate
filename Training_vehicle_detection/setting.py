@@ -1,7 +1,7 @@
 import numpy as np
 
 params = {}
-params['color_space'] = 'RGB'  # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
+params['color_space'] = 'gray'  # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
 params['orient'] = 9  # HOG orientations
 params['pix_per_cell'] = 8  # HOG pixels per cell
 params['cell_per_block'] = 2  # HOG cells per block
@@ -22,10 +22,10 @@ for x,y in enumerate(s):
     win_size[f'scale_{x}']=(0,1000,y)
 win_size['thresh']=4
 #10
-win_size['overlap_thresh']= 0.1
+win_size['overlap_thresh']= 0.009
 win_size['length']= len(s)
 # 0.5, 1.3
-win_size['use_scale']=(10,)
+win_size['use_scale']=(9,)
 win_size['y_start_stop']= [300,None]
 # 9,10
 # close: use scale 2, 3, 4, 6, 7(good), 8, 9(good), 10 => 7,8,9
