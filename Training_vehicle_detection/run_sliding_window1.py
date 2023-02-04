@@ -25,8 +25,8 @@ def run(name, debug=False, use_nms=False):
     if type(name)!=str:
         img=name
     else:
-        img   = cv2.imread(name, cv2.IMREAD_COLOR)
-    img= cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img = cv2.imread(name, cv2.IMREAD_COLOR)
+    # img= cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img= cv2.resize(img, (1000,500))
     img2  = img.copy()
     start= time.time()
@@ -56,7 +56,7 @@ def run(name, debug=False, use_nms=False):
             i1= cv2.resize(i1, (600,300))
             cv2.imshow('i',i)
             cv2.imshow('i1',i1)
-    cv2.imshow('result', img2)
+    # cv2.imshow('result', img2)
     return img2, bbox_nms
 def test():
     os.chdir("/Users/datle/Desktop/Official_license_plate")

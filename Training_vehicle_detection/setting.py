@@ -22,7 +22,7 @@ for x,y in enumerate(s):
     win_size[f'scale_{x}']=(0,1000,y)
 win_size['thresh']=4
 #10
-win_size['overlap_thresh']= 0.009
+win_size['overlap_thresh']= 0.00001
 win_size['length']= len(s)
 # 0.5, 1.3
 win_size['use_scale']=(9,)

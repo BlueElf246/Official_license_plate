@@ -22,4 +22,4 @@ win_size['length']= len(s)
 win_size['overlap_thresh']= 0.05
 win_size['y_start_stop']=[None, None]
 # 0.5, 1.3
-win_size['use_scale']=(4,)
+win_size['use_scale']=(2,)
