@@ -32,7 +32,7 @@ def run(name, debug=False, use_nms=False):
     start= time.time()
     bbox, bbox_nms= find_car_multi_scale(img,params, win_size)
     if bbox is None and bbox_nms is None:
-        return None, None
+        return img2, None
     end= time.time()
     print(f'time is: {end-start}')
     if use_nms==False:

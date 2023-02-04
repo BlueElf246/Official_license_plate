@@ -99,8 +99,6 @@ def change_green(img):
     result= cv2.bitwise_and(img_src, img_src, mask=mask)
     cv2.imshow('reuslt', result)
     cv2.waitKey(0)
-img=cv2.imread("/Users/datle/Desktop/Official_license_plate/images/Screen Shot 2023-02-03 at 14.12.24.png", cv2.IMREAD_COLOR)
-change_green(img)
 
 
 

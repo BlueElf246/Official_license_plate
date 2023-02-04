@@ -16,7 +16,7 @@ while (cap.isOpened()):
     # else:
         ret, frame = cap.read()
         if ret == True:
-            run1(frame,i, debug=True, use_nms=True)
+            run1(frame,i, debug=False, use_nms=True)
             # Press Q on keyboard to  exit
             if cv2.waitKey(25) & 0xFF == ord('q'):
                 break

@@ -6,6 +6,9 @@ from skimage.feature import hog
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.svm import LinearSVC
+from sklearn.ensemble import AdaBoostClassifier
+import xgboost as xgb
+from sklearn.metrics import accuracy_score
 import pickle
 def load_dataset(name1, name2):
     car=[]
@@ -90,11 +93,22 @@ def normalize(X):
 def split(X,y):
     X_train, X_test, y_train, y_test= train_test_split(X,y,test_size=0.2, random_state=0)
     return X_train, X_test, y_train, y_test
-def train_model(X_train, X_test, y_train, y_test):
-    svc=LinearSVC(dual=False, max_iter=1000, penalty='l2')
-    svc.fit(X_train, y_train)
-    print('Test_score: ', svc.score(X_test,y_test))
-    return svc
+def train_model(X_train, X_test, y_train, y_test, model='svc'):
+    if model=='svc':
+        svc=LinearSVC(dual=False, max_iter=1000, penalty='l2')
+        svc.fit(X_train, y_train)
+        print('Test_score: ', svc.score(X_test,y_test))
+        return svc
+    elif model=='adaboost':
+        ada=AdaBoostClassifier(n_estimators=100)
+        ada.fit(X_train,y_train)
+        print('Test_score: ', ada.score(X_test, y_test))
+        return ada
+    elif model =='xgboost':
+        xgboost=xgb.XGBClassifier(objective='binary:logistic')
+        xgboost.fit(X_train, y_train)
+        y_hat= xgboost.predict(X_test)
+        print(f'accuracy score: {accuracy_score(y_test, y_hat)}')
 def save_model(file, svc,sc,params,y):
     os.chdir("/Users/datle/Desktop/Official_license_plate/model")
     with open(file, 'wb') as pfile:
@@ -113,10 +127,10 @@ def save_model(file, svc,sc,params,y):
              'hist_feat': params['hist_feat'],
              'hog_feat': params['hog_feat'],
              'test_size': params['test_size'],
-             'num_of_feature': svc.coef_.shape[-1],
+             # 'num_of_feature': svc.coef_.shape[-1],
              'size_of_pic_train': params['size_of_window'],
              'total_of_example': len(y),
-             'model_parameter': svc.get_params()
+             # 'model_parameter': svc.get_params()
              },
             pfile, pickle.HIGHEST_PROTOCOL)
     os.chdir("/Users/datle/Desktop/Official_license_plate")
