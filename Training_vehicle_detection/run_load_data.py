@@ -41,7 +41,7 @@ name='svc'
 print(len(car), len(non_car))
 random.shuffle(car)
 random.shuffle(non_car)
-car=car[:100]
+car=car[:30]
 #300
 # non_car=non_car[:3]
 car_feature=extract_feature(car, params['color_space'], params)
@@ -55,3 +55,5 @@ X_train, X_test, y_train, y_test= split(X_scaled, y)
 print('start to train model')
 model= train_model(X_train, X_test, y_train, y_test, model=name)
 save_model(f'vehicle_detect_{name}_50.p', model, sc, params=params,y=y)
+
+#vehicle_detect_svc_50.p: best

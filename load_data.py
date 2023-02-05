@@ -100,7 +100,7 @@ def train_model(X_train, X_test, y_train, y_test, model='svc'):
         for l in set(y_train):
             cw[l]= np.sum(y_train==l)
         print(cw)
-        svc=LinearSVC(dual=True, max_iter=1000, penalty='l2', loss='hinge', class_weight=cw)
+        svc=LinearSVC(dual=True, max_iter=1000, penalty='l2', loss='hinge', class_weight='balanced')
         svc.fit(X_train, y_train)
         print('Test_score: ', svc.score(X_test,y_test))
         return svc
