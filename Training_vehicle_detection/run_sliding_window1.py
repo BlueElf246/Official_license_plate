@@ -9,7 +9,7 @@ import time
 import cv2
 import matplotlib.pyplot as plt
 from Training_vehicle_detection.setting import win_size
-params=load_classifier('vehicle_detect.p')
+params=load_classifier('vehicle_detect_svc_50.p')
 def filter_plate(bbox):
     for i,x in enumerate(bbox):
         # if (x[3]- x[1]) <15 and (x[2]- x[0]) <50:

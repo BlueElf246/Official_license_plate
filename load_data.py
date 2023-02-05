@@ -12,6 +12,7 @@ from sklearn.metrics import accuracy_score
 import pickle
 def load_dataset(name1, name2):
     car=[]
+    car_new=[]
     for x in name1:
         car+= glob.glob(x)
     non_car=[]
@@ -95,12 +96,16 @@ def split(X,y):
     return X_train, X_test, y_train, y_test
 def train_model(X_train, X_test, y_train, y_test, model='svc'):
     if model=='svc':
-        svc=LinearSVC(dual=False, max_iter=1000, penalty='l2')
+        cw={}
+        for l in set(y_train):
+            cw[l]= np.sum(y_train==l)
+        print(cw)
+        svc=LinearSVC(dual=True, max_iter=1000, penalty='l2', loss='hinge', class_weight=cw)
         svc.fit(X_train, y_train)
         print('Test_score: ', svc.score(X_test,y_test))
         return svc
     elif model=='adaboost':
-        ada=AdaBoostClassifier(n_estimators=100)
+        ada=AdaBoostClassifier(n_estimators=5)
         ada.fit(X_train,y_train)
         print('Test_score: ', ada.score(X_test, y_test))
         return ada
@@ -109,6 +114,7 @@ def train_model(X_train, X_test, y_train, y_test, model='svc'):
         xgboost.fit(X_train, y_train)
         y_hat= xgboost.predict(X_test)
         print(f'accuracy score: {accuracy_score(y_test, y_hat)}')
+        return xgboost
 def save_model(file, svc,sc,params,y):
     os.chdir("/Users/datle/Desktop/Official_license_plate/model")
     with open(file, 'wb') as pfile:

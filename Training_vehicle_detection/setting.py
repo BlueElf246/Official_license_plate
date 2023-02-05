@@ -2,8 +2,8 @@ import numpy as np
 
 params = {}
 params['color_space'] = 'gray'  # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
-params['orient'] = 9  # HOG orientations
-params['pix_per_cell'] = 8  # HOG pixels per cell
+params['orient'] = 11  # HOG orientations
+params['pix_per_cell'] = 16  # HOG pixels per cell
 params['cell_per_block'] = 2  # HOG cells per block
 params['hog_channel'] = 'ALL'  # Can be 0, 1, 2, or "ALL"
 params['spatial_size'] = (16, 16)  # Spatial binning dimensions

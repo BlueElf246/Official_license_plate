@@ -74,7 +74,10 @@ def sliding_window(img,params,scale, y_start_stop=[None, None], cell_per_step=2)
             if params['hist_feat'] == True:
                 color_feature   = get_feature_of_image(img_crop, hog_fea=False, spatial_fea=False, bins=params['hist_bins'], color_fea=params['hist_feat'])
             feature= np.concatenate((hog_f, color_feature, spatial_feature))
-            scaled_feature=scaler.transform(np.array(feature).reshape(1,-1))
+            if scaler is None:
+                scaled_feature=np.array(feature).reshape(1,-1)
+            else:
+                scaled_feature=scaler.transform(np.array(feature).reshape(1,-1))
             prediction= svc.predict(scaled_feature)
             if prediction ==1:
                 xbox_left = np.int32(x_top * scale)
