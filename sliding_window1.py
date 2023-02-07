@@ -10,7 +10,7 @@ def load_classifier(name):
     os.chdir("/Users/datle/Desktop/Official_license_plate/model")
     d= pickle.load(open(name, 'rb'))
     return d
-def sliding_window(img,params,scale, y_start_stop=[None, None], cell_per_step=2):
+def sliding_window(img,params,scale, y_start_stop=[None, None], cell_per_step=8):
     bbox=[]
     if y_start_stop[0] == None or y_start_stop[0] > img.shape[0]:
         y_start_stop[0]=0

@@ -60,7 +60,9 @@ def run(name, debug=False, use_nms=False):
     return img2, bbox_nms
 def test():
     os.chdir("/Users/datle/Desktop/Official_license_plate")
-    l=glob.glob("./Training_vehicle_detection/result/run_load_data.jpeg")
+    l=glob.glob("./Training_vehicle_detection/result/middle_close.jpeg")
     random.shuffle(l)
     for i in l:
-        result,bbox= run(i,debug=True)
+        result,bbox= run(i,debug=False, use_nms=True)
+
+test()

@@ -5,7 +5,7 @@ import numpy as np
 from skimage.feature import hog
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
-from sklearn.svm import LinearSVC
+from sklearn.svm import LinearSVC, NuSVC
 from sklearn.ensemble import AdaBoostClassifier
 import xgboost as xgb
 from sklearn.metrics import accuracy_score
@@ -38,11 +38,11 @@ def get_feature_of_image(img, orient=9, pix_per_cell=8, cell_per_block=2, spatia
         h=[]
         if color_space =='gray':
             h.append(hog(img, orient, pixels_per_cell=(pix_per_cell,pix_per_cell), cells_per_block=(cell_per_block,cell_per_block),
-                         feature_vector=feature_vector, visualize=vis, transform_sqrt=False))
+                         feature_vector=feature_vector, visualize=vis, transform_sqrt=False, block_norm='L2-Hys'))
         else:
             for x in range(3):
                 hog_feature= hog(img[:,:,x], orient, pixels_per_cell=(pix_per_cell,pix_per_cell), cells_per_block=(cell_per_block,cell_per_block),
-                             feature_vector=feature_vector, visualize=vis, transform_sqrt=False)
+                             feature_vector=feature_vector, visualize=vis, transform_sqrt=False, block_norm='L2-Hys')
                 h.append(hog_feature)
         if special==True:
             return h
@@ -67,7 +67,7 @@ def change_color_space(img,colorspace):
         if colorspace == 'hls':
             img = cv2.cvtColor(img, cv2.COLOR_RGB2HLS)
         if colorspace == 'yuv':
-            img = cv2.cvtColor(img, cv2.COLOR_RGB2YUV)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2YUV)
         if colorspace == 'gray':
             img= cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     return img
@@ -75,7 +75,7 @@ def extract_feature(dataset, color_space, params):
     dataset_feature=[]
     for x in dataset:
         img=cv2.imread(x, cv2.IMREAD_COLOR)
-        img= cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        # img= cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img_resized= cv2.resize(img,(params['size_of_window'][0],params['size_of_window'][1]))
         feature=get_feature_of_image(img_resized, orient=params['orient'], pix_per_cell=params['pix_per_cell'], cell_per_block=params['cell_per_block'],hog_fea=params['hog_feat'],
                                      spatial_size=params['spatial_size'], spatial_fea=params['spatial_feat'],bins=params['hist_bins'], color_fea=params['hist_feat'],
@@ -100,7 +100,7 @@ def train_model(X_train, X_test, y_train, y_test, model='svc'):
         for l in set(y_train):
             cw[l]= np.sum(y_train==l)
         print(cw)
-        svc=LinearSVC(dual=True, max_iter=1000, penalty='l2', loss='hinge', class_weight='balanced')
+        svc=LinearSVC(dual=True, max_iter=1000, penalty='l2', loss='hinge', class_weight=None)
         svc.fit(X_train, y_train)
         print('Test_score: ', svc.score(X_test,y_test))
         return svc
@@ -115,6 +115,11 @@ def train_model(X_train, X_test, y_train, y_test, model='svc'):
         y_hat= xgboost.predict(X_test)
         print(f'accuracy score: {accuracy_score(y_test, y_hat)}')
         return xgboost
+    elif model== 'svc_nu':
+        svc_nu=NuSVC(nu=0.25)
+        svc_nu.fit(X_train, y_train)
+        print(f'Test score: {svc_nu.score(X_test, y_test)}')
+        return svc_nu
 def save_model(file, svc,sc,params,y):
     os.chdir("/Users/datle/Desktop/Official_license_plate/model")
     with open(file, 'wb') as pfile:

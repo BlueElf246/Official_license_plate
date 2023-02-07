@@ -1,10 +1,10 @@
 import numpy as np
 
 params = {}
-params['color_space'] = 'gray'  # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
-params['orient'] = 11  # HOG orientations
-params['pix_per_cell'] = 16  # HOG pixels per cell
-params['cell_per_block'] = 2  # HOG cells per block
+params['color_space'] = 'YUV'  # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
+params['orient'] = 9  # HOG orientations
+params['pix_per_cell'] = 4  # HOG pixels per cell
+params['cell_per_block'] = 4  # HOG cells per block
 params['hog_channel'] = 'ALL'  # Can be 0, 1, 2, or "ALL"
 params['spatial_size'] = (16, 16)  # Spatial binning dimensions
 params['hist_bins'] = 16  # Number of histogram bins
@@ -22,7 +22,7 @@ for x,y in enumerate(s):
     win_size[f'scale_{x}']=(0,1000,y)
 win_size['thresh']=4
 #10
-win_size['overlap_thresh']= 0.0000000001
+win_size['overlap_thresh']= 1
 win_size['length']= len(s)
 # 0.5, 1.3
 win_size['use_scale']=(9,)
