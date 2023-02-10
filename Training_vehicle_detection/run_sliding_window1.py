@@ -63,6 +63,8 @@ def test():
     l=glob.glob("./Training_vehicle_detection/result/middle_close.jpeg")
     random.shuffle(l)
     for i in l:
-        result,bbox= run(i,debug=False, use_nms=True)
+        result,bbox= run(i,debug=True, use_nms=False)
+        cv2.imshow('r', result)
+        cv2.waitKey(0)
 
 test()

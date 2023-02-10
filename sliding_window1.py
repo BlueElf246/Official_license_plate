@@ -4,7 +4,7 @@ from load_data import get_feature_of_image, change_color_space
 import cv2
 import numpy as np
 import pickle
-from imutils.object_detection import  non_max_suppression
+from imutils.object_detection import  non_max_suppression_fast
 from scipy.ndimage import label
 def load_classifier(name):
     os.chdir("/Users/datle/Desktop/Official_license_plate/model")
@@ -101,7 +101,7 @@ def find_car_multi_scale(img,params, win_size):
     if len(bboxes) ==0:
         return None,None
     bboxes= np.concatenate(bboxes)
-    return bboxes,non_max_suppression(np.array(bboxes),probs=None, overlapThresh=win_size['overlap_thresh'])
+    return bboxes,non_max_suppression_fast(np.array(bboxes), overlapThresh=win_size['overlap_thresh'])
 def draw(img,box):
     for x in box:
         cv2.rectangle(img, (x[0],x[1]), (x[2],x[3]), (0,0,255), 2)

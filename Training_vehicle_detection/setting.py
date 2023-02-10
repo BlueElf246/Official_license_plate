@@ -20,13 +20,13 @@ s=[0.45, 0.611, 0.772, 0.933, 1.094, 1.255, 1.416, 1.577, 1.738, 1.899, 2.06, 2.
 inx= np.argmax(s)
 for x,y in enumerate(s):
     win_size[f'scale_{x}']=(0,1000,y)
-win_size['thresh']=4
+win_size['thresh']=10
 #10
-win_size['overlap_thresh']= 1
+win_size['overlap_thresh']= 0.1
 win_size['length']= len(s)
 # 0.5, 1.3
-win_size['use_scale']=(9,)
-win_size['y_start_stop']= [300,None]
+win_size['use_scale']=(4,5,6,7,8,9)
+win_size['y_start_stop']= [100,None]
 # 9,10
 # close: use scale 2, 3, 4, 6, 7(good), 8, 9(good), 10 => 7,8,9
 #  when  scale 5: can not detect upper part of car (close)
