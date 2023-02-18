@@ -1,7 +1,7 @@
 import numpy as np
 
 params = {}
-params['color_space'] = 'YUV'  # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
+params['color_space'] = 'gray'  # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
 params['orient'] = 9  # HOG orientations
 params['pix_per_cell'] = 4  # HOG pixels per cell
 params['cell_per_block'] = 4  # HOG cells per block

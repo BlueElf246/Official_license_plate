@@ -33,6 +33,6 @@ else:
 X_train, X_test, y_train, y_test= split(X_scaled, y)
 print('start to train model')
 model= train_model(X_train, X_test, y_train, y_test, model=name)
-save_model(f'vehicle_detect_{name}_10k.p', model, sc, params=params,y=y)
+save_model(f'vehicle_detect_{name}_gray.p', model, sc, params=params,y=y)
 
 #vehicle_detect_svc_50.p: best
