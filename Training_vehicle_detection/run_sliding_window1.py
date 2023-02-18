@@ -9,7 +9,7 @@ import time
 import cv2
 import matplotlib.pyplot as plt
 from Training_vehicle_detection.setting import win_size
-params=load_classifier('vehicle_detect_svc_50.p')
+params=load_classifier('OFFICIAL.p')
 def filter_plate(bbox):
     for i,x in enumerate(bbox):
         # if (x[3]- x[1]) <15 and (x[2]- x[0]) <50:
@@ -60,7 +60,7 @@ def run(name, debug=False, use_nms=False):
     return img2, bbox_nms
 def test():
     os.chdir("/Users/datle/Desktop/Official_license_plate")
-    l=glob.glob("./Training_vehicle_detection/result/middle_close.jpeg")
+    l=glob.glob("./Training_vehicle_detection/result/run_load_data.jpeg")
     random.shuffle(l)
     for i in l:
         result,bbox= run(i,debug=True, use_nms=False)
